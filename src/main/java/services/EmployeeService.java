@@ -10,10 +10,6 @@ public class EmployeeService {
 
     private final EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
 
-    public void closeSession() {
-        employeeDAO.closeSession();
-    }
-
     public Employee getEmployeeById(int id) {
         return employeeDAO.getById(id);
     }

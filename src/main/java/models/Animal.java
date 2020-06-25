@@ -1,6 +1,8 @@
 package models;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -24,7 +26,7 @@ public class Animal {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_employee")
-    @JsonIgnore
+    @JsonBackReference
     private Employee employee;
 
     public Animal() {}

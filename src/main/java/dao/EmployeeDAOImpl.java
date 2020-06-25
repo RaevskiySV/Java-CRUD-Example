@@ -12,50 +12,45 @@ import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-    private Session session;
-
-    public void openSession() {
-        session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-    }
-
-    public void closeSession() {
-        session.close();
-    }
-
     @Override
     public Employee getById(int id) {
-        openSession();
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Employee employee = session.get(Employee.class, id);
+        session.close();
         return employee;
     }
 
     @Override
     public List<Employee> getByName(String name) {
-        openSession();
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Query query = session.createQuery("FROM Employee WHERE name = :param");
         query.setParameter("param", name);
         List<Employee> employees = (List<Employee>) query.list();
+        session.close();
         return employees;
     }
 
     @Override
     public List<Employee> getAll() {
-        openSession();
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         List<Employee> employees = (List<Employee>) session.createQuery("FROM Employee").list();
+        session.close();
         return employees;
     }
 
     @Override
     public Animal getAnimalById(int id) {
-        openSession();
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Animal animal = session.get(Animal.class, id);
+        session.close();
         return animal;
     }
 
     @Override
     public List<Animal> getAllAnimals() {
-        openSession();
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         List<Animal> animals = (List<Animal>) session.createQuery("FROM Animal").list();
+        session.close();
         return animals;
     }
 

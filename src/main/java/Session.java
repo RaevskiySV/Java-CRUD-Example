@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.databind.SerializationFeature;
 import models.User;
 import models.Employee;
 import models.Animal;
@@ -170,8 +171,6 @@ public class Session {
             default:
                 System.out.println("Unknown command");
         }
-
-        employeeService.closeSession();
     }
 
     private void readEmployeeByID() {
@@ -250,8 +249,6 @@ public class Session {
             if (employee == null)
                 throw new EmptyException();
 
-            employeeService.closeSession();
-
             System.out.print("Name: ");
             String name = scanner.nextLine();
             System.out.print("Age: ");
@@ -291,8 +288,6 @@ public class Session {
             Employee employee = employeeService.getEmployeeById(id);
             if (employee == null)
                 throw new EmptyException();
-
-            employeeService.closeSession();
 
             System.out.print("Delete employee? [yes/no]: ");
             String option = scanner.nextLine();
@@ -353,7 +348,6 @@ public class Session {
             Animal animal = new Animal(name, species);
             animal.setEmployee(employee);
             employee.addAnimal(animal);
-            employeeService.closeSession();
             employeeService.updateEmployee(employee);
         } catch (NumberFormatException e) {
             System.out.println("Not numeric");
@@ -369,6 +363,7 @@ public class Session {
                 throw new EmptyException();
 
             ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
             StringWriter stringWriter = new StringWriter();
             mapper.writerWithDefaultPrettyPrinter().writeValue(stringWriter, animals);
             System.out.println(stringWriter.toString());
@@ -398,7 +393,6 @@ public class Session {
             if ("yes".equals(option)) {
                 Employee employee = animal.getEmployee();
                 employee.removeAnimal(animal);
-                employeeService.closeSession();
                 employeeService.updateEmployee(employee);
             }
         } catch (NumberFormatException e) {
